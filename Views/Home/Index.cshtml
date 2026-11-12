@@ -1,0 +1,126 @@
+﻿@model IEnumerable<LibreriaDiscovery.Models.Libro>
+
+@{
+    ViewData["Title"] = "Inicio";
+}
+
+<!-- BANNER PRINCIPAL (HERO SECTION) -->
+<div class="max-w-7xl mx-auto px-4 py-6">
+    <div class="relative overflow-hidden bg-gradient-to-br from-slate-900 via-slate-800 to-indigo-950 border border-slate-700/60 rounded-3xl p-8 md:p-12 shadow-2xl">
+        <div class="absolute -right-10 -bottom-10 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="relative z-10 max-w-2xl">
+            <div class="inline-flex items-center space-x-2 px-3 py-1 bg-indigo-500/10 border border-indigo-500/30 rounded-full text-indigo-400 text-xs font-semibold tracking-wider uppercase mb-6">
+                <span>✨ Descubre nuevos mundos literarios</span>
+            </div>
+            <h1 class="text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-tight mb-4">
+                Donde cada libro es una <span class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">nueva aventura</span>
+            </h1>
+            <p class="text-slate-300 text-sm md:text-base leading-relaxed mb-8">
+                Explora nuestra colección curada con los mejores títulos de tecnología, ciencia ficción, desarrollo personal y literatura clásica. Encuentra tu próxima gran lectura en Discovery.
+            </p>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#catalogo" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 text-white font-medium rounded-xl shadow-lg shadow-indigo-600/30 transition-all text-sm">
+                    Explorar Catálogo
+                </a>
+                <a asp-action="SobreNosotros" class="px-6 py-3 bg-slate-800/80 hover:bg-slate-700 text-slate-300 hover:text-white border border-slate-700 font-medium rounded-xl transition-all text-sm">
+                    Conoce Más
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SECCIÓN DE CARACTERÍSTICAS -->
+<div class="max-w-7xl mx-auto px-4 py-4 mb-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 p-5 rounded-2xl flex items-start space-x-4 shadow-md shadow-slate-100 dark:shadow-none">
+            <div class="p-3 bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-100 dark:border-indigo-500/20 rounded-xl text-indigo-600 dark:text-indigo-400 text-lg">📦</div>
+            <div>
+                <h3 class="text-slate-900 dark:text-white font-semibold text-sm">Envío Inmediato</h3>
+                <p class="text-slate-600 dark:text-slate-400 text-xs mt-1 leading-relaxed">Recibe tus ejemplares favoritos en formato físico o digital de manera instantánea y segura.</p>
+            </div>
+        </div>
+        <div class="bg-white dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 p-5 rounded-2xl flex items-start space-x-4 shadow-md shadow-slate-100 dark:shadow-none">
+            <div class="p-3 bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-100 dark:border-indigo-500/20 rounded-xl text-indigo-600 dark:text-indigo-400 text-lg">🛡️</div>
+            <div>
+                <h3 class="text-slate-900 dark:text-white font-semibold text-sm">Garantía de Calidad</h3>
+                <p class="text-slate-600 dark:text-slate-400 text-xs mt-1 leading-relaxed">Seleccionamos cuidadosamente cada título para ofrecerte la mejor experiencia literaria.</p>
+            </div>
+        </div>
+        <div class="bg-white dark:bg-slate-800/60 border border-slate-200/80 dark:border-slate-700/60 p-5 rounded-2xl flex items-start space-x-4 shadow-md shadow-slate-100 dark:shadow-none">
+            <div class="p-3 bg-indigo-50 dark:bg-indigo-500/10 border border-indigo-100 dark:border-indigo-500/20 rounded-xl text-indigo-600 dark:text-indigo-400 text-lg">🎧</div>
+            <div>
+                <h3 class="text-slate-900 dark:text-white font-semibold text-sm">Soporte 24/7</h3>
+                <p class="text-slate-600 dark:text-slate-400 text-xs mt-1 leading-relaxed">Asistencia personalizada para recomendaciones de lectura y gestión de tus pedidos.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- SECCIÓN DEL CATÁLOGO DE LIBROS -->
+<div id="catalogo" class="max-w-7xl mx-auto px-4 py-8">
+    <div class="mb-8 text-center">
+        <span class="px-3.5 py-1.5 bg-indigo-100 dark:bg-indigo-950/50 text-indigo-700 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-900/50 rounded-full text-xs font-semibold tracking-wider uppercase">Inventario General</span>
+        <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mt-3">Catálogo de Libros</h2>
+        <p class="text-slate-600 dark:text-slate-400 text-sm mt-1">Explora todos los títulos disponibles en nuestra base de datos.</p>
+    </div>
+
+    <!-- Barra de Búsqueda Mejorada -->
+    <form asp-action="Index" method="get" class="bg-white dark:bg-slate-800/80 backdrop-blur-md p-4 rounded-2xl shadow-lg border border-slate-200 dark:border-slate-700 max-w-3xl mx-auto mb-10 flex flex-col sm:flex-row gap-3 items-center">
+        <div class="relative w-full">
+            <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 pointer-events-none text-slate-400">🔍</span>
+            <input type="text" name="q" placeholder="Buscar por título o autor..." class="w-full pl-10 pr-4 py-2.5 bg-slate-50 dark:bg-slate-900 border border-slate-300 dark:border-slate-700 rounded-xl text-slate-900 dark:text-white focus:ring-2 focus:ring-indigo-500 focus:outline-none text-sm font-medium" />
+        </div>
+        <button type="submit" class="w-full sm:w-auto px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-xl transition-all shadow-md shadow-indigo-500/20 text-sm whitespace-nowrap">
+            Filtrar
+        </button>
+    </form>
+
+    <!-- Cuadrícula de Libros -->
+    @if (Model != null && Model.Any())
+    {
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            @foreach (var libro in Model)
+            {
+                <div class="bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 rounded-2xl overflow-hidden shadow-md hover:shadow-xl dark:shadow-none flex flex-col justify-between hover:border-indigo-500/50 transition-all group">
+                    <div>
+                        <div class="h-60 bg-slate-100 dark:bg-slate-900 overflow-hidden relative">
+                            <img src="@(string.IsNullOrEmpty(libro.ImagenUrl) ? "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c" : libro.ImagenUrl)" 
+                                 alt="@libro.Titulo" 
+                                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" 
+                                 onerror="this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c';" />
+                            <div class="absolute top-3 right-3 bg-white/90 dark:bg-slate-900/80 backdrop-blur-md px-3 py-1 rounded-lg border border-slate-200 dark:border-slate-700 text-xs font-bold text-indigo-600 dark:text-indigo-400 shadow-sm">
+                                $@libro.Precio.ToString("N2")
+                            </div>
+                        </div>
+                        <div class="p-5">
+                            <h3 class="text-base font-bold text-slate-900 dark:text-white group-hover:text-indigo-600 dark:group-hover:text-indigo-400 transition-colors line-clamp-1">@libro.Titulo</h3>
+                            <p class="text-xs text-indigo-600 dark:text-indigo-300 font-semibold mb-2.5">@libro.Autor</p>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 line-clamp-2 leading-relaxed">@libro.Descripcion</p>
+                        </div>
+                    </div>
+                    <div class="p-5 pt-0 flex items-center justify-between border-t border-slate-100 dark:border-slate-700/50 mt-4">
+                        <span class="text-xs font-medium text-slate-500 dark:text-slate-400">Stock: <strong class="text-slate-900 dark:text-white">@libro.Stock</strong></span>
+                        <span class="px-3 py-1.5 bg-indigo-50 dark:bg-indigo-600/20 text-indigo-600 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-500/30 rounded-xl text-xs font-semibold">
+                            <div class="p-5 pt-0 flex items-center justify-between border-t border-slate-100 dark:border-slate-700/50 mt-4">
+    <span class="text-xs font-medium text-slate-500 dark:text-slate-400">Stock: <strong class="text-slate-900 dark:text-white">@libro.Stock</strong></span>
+    <form asp-controller="Carrito" asp-action="Agregar" method="post">
+        <input type="hidden" name="id" value="@libro.Id" />
+        <button type="submit" class="px-3.0 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs font-semibold shadow-sm transition cursor-pointer">
+            + Agregar
+        </button>
+    </form>
+</div>
+                        </span>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+    else
+    {
+        <div class="text-center py-16 bg-white dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/50 rounded-2xl max-w-md mx-auto shadow-sm dark:shadow-none">
+            <p class="text-slate-600 dark:text-slate-400 text-sm font-medium">No hay libros registrados en este momento o no coinciden con tu búsqueda.</p>
+        </div>
+    }
+</div>

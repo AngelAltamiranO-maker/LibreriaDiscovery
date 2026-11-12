@@ -1,0 +1,24 @@
+@model LibreriaDiscovery.Models.Libro
+
+@{
+    ViewData["Title"] = "Eliminar Libro";
+}
+
+<div class="max-w-xl mx-auto px-4 py-12">
+    <div class="bg-white dark:bg-slate-800 shadow-xl rounded-2xl p-6 border border-gray-100 dark:border-slate-700 text-center">
+        <h1 class="text-2xl font-bold text-red-600 dark:text-red-400 mb-2">¿Estás seguro de eliminar este libro?</h1>
+        <p class="text-sm text-gray-500 dark:text-gray-400 mb-6">Esta acción no se puede deshacer.</p>
+
+        <div class="bg-gray-50 dark:bg-slate-900 p-4 rounded-xl text-left mb-6 space-y-2 border border-gray-200 dark:border-slate-700">
+            <div><span class="font-semibold text-gray-700 dark:text-gray-300">Título:</span> <span class="text-gray-900 dark:text-white">@Model.Titulo</span></div>
+            <div><span class="font-semibold text-gray-700 dark:text-gray-300">Autor:</span> <span class="text-gray-900 dark:text-white">@Model.Autor</span></div>
+            <div><span class="font-semibold text-gray-700 dark:text-gray-300">Precio:</span> <span class="text-gray-900 dark:text-white">$@Model.Precio.ToString("N2")</span></div>
+        </div>
+
+        <form asp-action="Delete" class="flex justify-center space-x-4">
+            <input type="hidden" asp-for="Id" />
+            <a asp-action="Index" class="px-5 py-2.5 bg-gray-200 dark:bg-slate-700 text-gray-700 dark:text-gray-300 font-medium rounded-xl hover:bg-gray-300 dark:hover:bg-slate-600 transition-colors">Cancelar</a>
+            <button type="submit" class="px-5 py-2.5 bg-red-600 hover:bg-red-700 text-white font-medium rounded-xl shadow-lg shadow-red-500/20 transition-all">Sí, Eliminar</button>
+        </form>
+    </div>
+</div>
