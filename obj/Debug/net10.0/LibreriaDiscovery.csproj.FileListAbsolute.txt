@@ -229,3 +229,4 @@ C:\Users\josea\GIT\LibreriaDiscovery\obj\Debug\net10.0\refint\LibreriaDiscovery.
 C:\Users\josea\GIT\LibreriaDiscovery\obj\Debug\net10.0\LibreriaDiscovery.pdb
 C:\Users\josea\GIT\LibreriaDiscovery\obj\Debug\net10.0\LibreriaDiscovery.genruntimeconfig.cache
 C:\Users\josea\GIT\LibreriaDiscovery\obj\Debug\net10.0\ref\LibreriaDiscovery.dll
+C:\Users\josea\GIT\LibreriaDiscovery\obj\Debug\net10.0\LibreriaDiscovery.sourcelink.json
