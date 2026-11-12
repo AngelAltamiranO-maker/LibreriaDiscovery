@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Configuración de la conexión a SQL Server
+// Configuración de la conexión a SQLite
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConectionString")));
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -23,6 +23,23 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 var app = builder.Build();
+
+// --- BLOQUE PARA CREAR LA BASE DE DATOS Y TABLAS AUTOMÁTICAMENTE ---
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+    try
+    {
+        var context = services.GetRequiredService<AppDbContext>();
+        context.Database.EnsureCreated(); // Crea el archivo libreria.db y sus tablas si no existen
+    }
+    catch (Exception ex)
+    {
+        var logger = services.GetRequiredService<ILogger<Program>>();
+        logger.LogError(ex, "Ocurrió un error al crear la base de datos.");
+    }
+}
+// -----------------------------------------------------------------
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -44,21 +61,5 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
-// Aplicar migraciones y base de datos automáticamente al iniciar
-using (var scope = app.Services.CreateScope())
-{
-    var services = scope.ServiceProvider;
-    try
-    {
-        var context = services.GetRequiredService<AppDbContext>();
-        context.Database.Migrate(); // Esto aplica la migración pendiente en SQL Server
-    }
-    catch (Exception ex)
-    {
-        var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "Ocurrió un error al aplicar las migraciones en la base de datos.");
-    }
-}
 
 app.Run();
