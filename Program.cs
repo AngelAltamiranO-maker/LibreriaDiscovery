@@ -31,12 +31,23 @@ using (var scope = app.Services.CreateScope())
     try
     {
         var context = services.GetRequiredService<AppDbContext>();
-        context.Database.EnsureCreated(); // Crea el archivo libreria.db y sus tablas si no existen
+        context.Database.EnsureCreated();
+
+        // Verificar si la base de datos no tiene libros para insertar unos iniciales
+        if (!context.Libros.Any())
+        {
+            context.Libros.AddRange(
+                new Libro { Titulo = "Cien años de soledad", Autor = "Gabriel García Márquez", Precio = 299.00m, Stock = 10, ImagenUrl = "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c" },
+                new Libro { Titulo = "Don Quijote de la Mancha", Autor = "Miguel de Cervantes", Precio = 350.00m, Stock = 5, ImagenUrl = "https://images.unsplash.com/photo-1512820790803-83ca734da794" },
+                new Libro { Titulo = "El Principito", Autor = "Antoine de Saint-Exupéry", Precio = 180.00m, Stock = 15, ImagenUrl = "https://images.unsplash.com/photo-1532012197267-da84d127e765" }
+            );
+            context.SaveChanges();
+        }
     }
     catch (Exception ex)
     {
         var logger = services.GetRequiredService<ILogger<Program>>();
-        logger.LogError(ex, "Ocurrió un error al crear la base de datos.");
+        logger.LogError(ex, "Ocurrió un error al inicializar la base de datos.");
     }
 }
 // -----------------------------------------------------------------
