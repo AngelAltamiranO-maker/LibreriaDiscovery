@@ -24,16 +24,16 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
 
 var app = builder.Build();
 
-// --- BLOQUE PARA CREAR LA BASE DE DATOS Y TABLAS AUTOMÁTICAMENTE ---
+// --- BLOQUE PARA CREAR LA BASE DE DATOS Y DATOS INICIALES ---
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
     try
     {
         var context = services.GetRequiredService<AppDbContext>();
-        context.Database.EnsureCreated();
+        context.Database.EnsureCreated(); // Crea el archivo libreria.db y las tablas
 
-        // Verificar si la base de datos no tiene libros para insertar unos iniciales
+        // Insertar libros de prueba si la tabla está vacía
         if (!context.Libros.Any())
         {
             context.Libros.AddRange(
@@ -50,7 +50,7 @@ using (var scope = app.Services.CreateScope())
         logger.LogError(ex, "Ocurrió un error al inicializar la base de datos.");
     }
 }
-// -----------------------------------------------------------------
+// -----------------------------------------------------------
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
