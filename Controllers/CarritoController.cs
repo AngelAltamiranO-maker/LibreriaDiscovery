@@ -19,7 +19,7 @@ namespace LibreriaDiscovery.Controllers
         // Clase auxiliar para representar cada ítem en el carrito
         public class ItemCarrito
         {
-            public int LibroId { get; set; } // Cambia a Guid si tu Libro.Id es Guid
+            public int LibroId { get; set; }
             public string Titulo { get; set; } = string.Empty;
             public string Autor { get; set; } = string.Empty;
             public string ImagenUrl { get; set; } = string.Empty;
@@ -50,7 +50,7 @@ namespace LibreriaDiscovery.Controllers
 
         // POST: /Carrito/Agregar
         [HttpPost]
-        public async Task<IActionResult> Agregar(int id) // Cambia a Guid si Libro.Id es Guid
+        public async Task<IActionResult> Agregar(int id)
         {
             var libro = await _context.Libros.FirstOrDefaultAsync(l => l.Id == id);
             if (libro == null) return NotFound();
@@ -81,14 +81,37 @@ namespace LibreriaDiscovery.Controllers
             GuardarCarrito(carrito);
             TempData["Mensaje"] = $"¡'{libro.Titulo}' se añadió al carrito!";
 
-            // Regresa a la página desde donde se hizo clic (Inicio o Catálogo)
             var referer = Request.Headers["Referer"].ToString();
             return !string.IsNullOrEmpty(referer) ? Redirect(referer) : RedirectToAction("Catalogo", "Home");
         }
 
+        // POST: /Carrito/Disminuir
+        [HttpPost]
+        public IActionResult Disminuir(int id)
+        {
+            var carrito = ObtenerCarrito();
+            var item = carrito.FirstOrDefault(i => i.LibroId == id);
+
+            if (item != null)
+            {
+                if (item.Cantidad > 1)
+                {
+                    item.Cantidad--;
+                }
+                else
+                {
+                    carrito.Remove(item);
+                }
+
+                GuardarCarrito(carrito);
+            }
+
+            return RedirectToAction("Index");
+        }
+
         // POST: /Carrito/Eliminar
         [HttpPost]
-        public IActionResult Eliminar(int id) // Cambia a Guid si Libro.Id es Guid
+        public IActionResult Eliminar(int id)
         {
             var carrito = ObtenerCarrito();
             var item = carrito.FirstOrDefault(i => i.LibroId == id);
@@ -108,30 +131,4 @@ namespace LibreriaDiscovery.Controllers
             return RedirectToAction("Index");
         }
     }
-
-    [HttpPost]
-public IActionResult Disminuir(int id)
-{
-    // Recuperar el carrito actual de la sesión (ajusta el nombre "Carrito" si usas otro)
-    var carrito = HttpContext.Session.GetObjectFromJson<List<CarritoItem>>("Carrito") ?? new List<CarritoItem>();
-
-    var item = carrito.FirstOrDefault(x => x.Libro.Id == id);
-
-    if (item != null)
-    {
-        if (item.Cantidad > 1)
-        {
-            item.Cantidad--; // Resta una unidad si hay más de 1
-        }
-        else
-        {
-            carrito.Remove(item); // Si solo queda 1, lo elimina del carrito
-        }
-
-        // Guardar el carrito actualizado en la sesión
-        HttpContext.Session.SetObjectFromJson("Carrito", carrito);
-    }
-
-    return RedirectToAction("Index");
-
 }
