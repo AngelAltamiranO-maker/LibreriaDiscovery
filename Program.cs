@@ -1,9 +1,9 @@
 using LibreriaDiscovery.Data;
+using LibreriaDiscovery.Models; 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
-
 // Configuración de la conexión a SQLite
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
