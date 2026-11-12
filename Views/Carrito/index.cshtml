@@ -1,88 +1,70 @@
-@model List<LibreriaDiscovery.Controllers.CarritoController.ItemCarrito>
+@model IEnumerable<LibreriaDiscovery.Models.CarritoItem> @* O el modelo que uses para los ítems del carrito *@
 
-@{
-    ViewData["Title"] = "Mi Carrito";
-    decimal total = Model?.Sum(i => i.Subtotal) ?? 0;
-}
-
-<div class="max-w-5xl mx-auto px-4 py-8">
-    <div class="flex items-center justify-between mb-8">
-        <div>
-            <span class="px-3 py-1 bg-indigo-100 dark:bg-indigo-950/50 text-indigo-700 dark:text-indigo-400 border border-indigo-200 dark:border-indigo-900/50 rounded-full text-xs font-semibold uppercase">Resumen de Compra</span>
-            <h1 class="text-3xl font-extrabold text-slate-900 dark:text-white mt-2">Tu Carrito de Compras</h1>
-        </div>
-        <a asp-controller="Home" asp-action="Catalogo" class="px-4 py-2 bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-xl text-sm font-medium transition">
-            ← Seguir explorando
-        </a>
-    </div>
+<div class="max-w-4xl mx-auto py-8 px-4">
+    <h2 class="text-2xl font-bold text-slate-900 dark:text-white mb-6">Tu Carrito de Compras</h2>
 
     @if (Model != null && Model.Any())
     {
-        <div class="bg-white dark:bg-slate-800/90 border border-slate-200 dark:border-slate-700 rounded-2xl shadow-lg overflow-hidden">
-            <div class="divide-y divide-slate-200 dark:divide-slate-700">
-                @foreach (var item in Model)
-                {
-                    <div class="p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <div class="flex items-center gap-4 w-full sm:w-auto">
-                            <img src="@(string.IsNullOrEmpty(item.ImagenUrl) ? "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c" : item.ImagenUrl)"
-                                 alt="@item.Titulo"
-                                 class="w-16 h-20 object-cover rounded-xl border border-slate-200 dark:border-slate-700"
-                                 onerror="this.src='https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c';" />
-                            <div>
-                                <h3 class="font-bold text-slate-900 dark:text-white text-base">@item.Titulo</h3>
-                                <p class="text-xs text-indigo-600 dark:text-indigo-400 font-medium">@item.Autor</p>
-                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Precio unitario: $@item.Precio.ToString("N2")</p>
-                            </div>
-                        </div>
+        <div class="bg-white dark:bg-slate-800 shadow-xl rounded-2xl overflow-hidden border border-slate-100 dark:border-slate-700">
+            <table class="min-w-full divide-y divide-slate-200 dark:divide-slate-700">
+                <thead class="bg-slate-50 dark:bg-slate-900">
+                    <tr>
+                        <th class="px-6 py-3 text-left text-xs font-medium text-slate-500 uppercase">Libro</th>
+                        <th class="px-6 py-3 text-center text-xs font-medium text-slate-500 uppercase">Cantidad</th>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase">Subtotal</th>
+                        <th class="px-6 py-3 text-right text-xs font-medium text-slate-500 uppercase">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-200 dark:divide-slate-700">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-slate-900 dark:text-white">
+                                @item.Libro.Titulo
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-center">
+                                <div class="inline-flex items-center space-x-2">
+                                    <!-- Botón disminuir -->
+                                    <form asp-action="Disminuir" asp-route-id="@item.Libro.Id" method="post">
+                                        <button type="submit" class="px-2 py-1 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-white rounded-lg text-xs font-bold hover:bg-slate-300 transition">-</button>
+                                    </form>
+                                    
+                                    <span class="px-2 font-semibold text-slate-800 dark:text-white">@item.Cantidad</span>
 
-                        <div class="flex items-center justify-between sm:justify-end gap-6 w-full sm:w-auto">
-                            <span class="px-3 py-1 bg-slate-100 dark:bg-slate-900 rounded-lg text-xs font-semibold text-slate-700 dark:text-slate-300">
-                                Cant: @item.Cantidad
-                            </span>
-                            <span class="font-bold text-slate-900 dark:text-white text-base">
-                                $@item.Subtotal.ToString("N2")
-                            </span>
-                            <form asp-controller="Carrito" asp-action="Eliminar" method="post">
-                                <input type="hidden" name="id" value="@item.LibroId" />
-                                <button type="submit" class="px-3 py-1.5 bg-red-50 dark:bg-red-950/40 text-red-600 dark:text-red-400 hover:bg-red-100 dark:hover:bg-red-900/50 rounded-xl text-xs font-semibold transition">
-                                    Quitar
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                }
-            </div>
-
-            <div class="p-6 bg-slate-50 dark:bg-slate-900/60 border-t border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row items-center justify-between gap-4">
-                <form asp-controller="Carrito" asp-action="Vaciar" method="post">
-                    <button type="submit" class="text-xs text-slate-500 hover:text-red-600 dark:text-slate-400 dark:hover:text-red-400 font-medium transition">
-                        🗑️ Vaciar carrito
-                    </button>
-                </form>
-
-                <div class="flex items-center gap-6">
-                    <div class="text-right">
-                        <span class="text-xs text-slate-500 dark:text-slate-400 block">Total a pagar</span>
-                        <span class="text-2xl font-extrabold text-indigo-600 dark:text-indigo-400">$@total.ToString("N2")</span>
-                    </div>
-                    <form asp-controller="Carrito" asp-action="Vaciar" method="post" onsubmit="alert('¡Gracias por tu compra en Librería Discovery!');">
-                        <button type="submit" class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-lg shadow-indigo-500/20 text-sm transition">
-                            Finalizar Compra
-                        </button>
-                    </form>
-                </div>
+                                    <!-- Botón aumentar -->
+                                    <form asp-action="Agregar" asp-route-id="@item.Libro.Id" method="post">
+                                        <button type="submit" class="px-2 py-1 bg-slate-200 dark:bg-slate-700 text-slate-800 dark:text-white rounded-lg text-xs font-bold hover:bg-slate-300 transition">+</button>
+                                    </form>
+                                </div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-right text-slate-600 dark:text-slate-300">
+                                $@((item.Libro.Precio * item.Cantidad).ToString("N2"))
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                <!-- Botón eliminar por completo -->
+                                <form asp-action="Eliminar" asp-route-id="@item.Libro.Id" method="post">
+                                    <button type="submit" class="text-red-600 dark:text-red-400 hover:underline text-xs">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            
+            <div class="p-6 bg-slate-50 dark:bg-slate-900/50 flex justify-between items-center border-t border-slate-200 dark:border-slate-700">
+                <span class="text-lg font-bold text-slate-900 dark:text-white">Total a Pagar:</span>
+                <!-- Aquí puedes calcular o mostrar el total general -->
+                <a href="#" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-sm font-semibold shadow-sm transition">
+                    Proceder al Pago
+                </a>
             </div>
         </div>
     }
     else
     {
-        <div class="text-center py-16 bg-white dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/50 rounded-2xl max-w-md mx-auto">
-            <p class="text-4xl mb-3">🛒</p>
-            <h3 class="text-lg font-bold text-slate-900 dark:text-white">Tu carrito está vacío</h3>
-            <p class="text-slate-500 dark:text-slate-400 text-xs mt-1 mb-6">Aún no has agregado libros a tu orden.</p>
-            <a asp-controller="Home" asp-action="Catalogo" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-semibold rounded-xl transition">
-                Ir al Catálogo
-            </a>
+        <div class="text-center py-16 bg-white dark:bg-slate-800/40 border border-slate-200 dark:border-slate-700/50 rounded-2xl shadow-sm">
+            <p class="text-slate-600 dark:text-slate-400 text-sm font-medium">Tu carrito está vacío.</p>
+            <a asp-controller="Home" asp-action="Index" class="mt-4 inline-block px-4 py-2 bg-indigo-600 text-white rounded-xl text-xs font-semibold">Ver catálogo</a>
         </div>
     }
 </div>

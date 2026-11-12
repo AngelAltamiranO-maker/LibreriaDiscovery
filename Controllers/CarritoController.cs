@@ -108,4 +108,30 @@ namespace LibreriaDiscovery.Controllers
             return RedirectToAction("Index");
         }
     }
+
+    [HttpPost]
+public IActionResult Disminuir(int id)
+{
+    // Recuperar el carrito actual de la sesión (ajusta el nombre "Carrito" si usas otro)
+    var carrito = HttpContext.Session.GetObjectFromJson<List<CarritoItem>>("Carrito") ?? new List<CarritoItem>();
+
+    var item = carrito.FirstOrDefault(x => x.Libro.Id == id);
+
+    if (item != null)
+    {
+        if (item.Cantidad > 1)
+        {
+            item.Cantidad--; // Resta una unidad si hay más de 1
+        }
+        else
+        {
+            carrito.Remove(item); // Si solo queda 1, lo elimina del carrito
+        }
+
+        // Guardar el carrito actualizado en la sesión
+        HttpContext.Session.SetObjectFromJson("Carrito", carrito);
+    }
+
+    return RedirectToAction("Index");
+
 }
