@@ -16,8 +16,6 @@ namespace LibreriaDiscovery.Models
 
         [Required(ErrorMessage = "La contraseña es obligatoria.")]
         [MinLength(6, ErrorMessage = "La contraseña debe tener al menos 6 caracteres.")]
-
-        [Required]
         public string PasswordHash { get; set; } = string.Empty;
 
         // Rol: "Admin" o "Cliente"

@@ -1,0 +1,10 @@
+C:\Users\josea\GIT\LibreriaDiscovery\obj\Release\net10.0\LibreriaDiscovery.csproj.AssemblyReference.cache
+C:\Users\josea\GIT\LibreriaDiscovery\obj\Release\net10.0\rpswa.dswa.cache.json
+C:\Users\josea\GIT\LibreriaDiscovery\obj\Release\net10.0\LibreriaDiscovery.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\josea\GIT\LibreriaDiscovery\obj\Release\net10.0\LibreriaDiscovery.AssemblyInfoInputs.cache
+C:\Users\josea\GIT\LibreriaDiscovery\obj\Release\net10.0\LibreriaDiscovery.AssemblyInfo.cs
+C:\Users\josea\GIT\LibreriaDiscovery\obj\Release\net10.0\LibreriaDiscovery.csproj.CoreCompileInputs.cache
+C:\Users\josea\GIT\LibreriaDiscovery\obj\Release\net10.0\LibreriaDiscovery.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\josea\GIT\LibreriaDiscovery\obj\Release\net10.0\LibreriaDiscovery.RazorAssemblyInfo.cache
+C:\Users\josea\GIT\LibreriaDiscovery\obj\Release\net10.0\LibreriaDiscovery.RazorAssemblyInfo.cs
+C:\Users\josea\GIT\LibreriaDiscovery\obj\Release\net10.0\LibreriaDiscovery.sourcelink.json
