@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("LibreriaDiscovery")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+2a992856cc9e7bf795d13e3983905820d730a543")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+15284912a52aa742958787e2c4a4acec0b591f64")]
 [assembly: System.Reflection.AssemblyProductAttribute("LibreriaDiscovery")]
 [assembly: System.Reflection.AssemblyTitleAttribute("LibreriaDiscovery")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

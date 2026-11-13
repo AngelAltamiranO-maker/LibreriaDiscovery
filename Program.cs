@@ -33,7 +33,7 @@ using (var scope = app.Services.CreateScope())
         var context = services.GetRequiredService<AppDbContext>();
         context.Database.EnsureCreated(); // Crea el archivo libreria.db y las tablas
 
-        // Insertar libros de prueba si la tabla está vacía
+        // 1. Insertar libros de prueba si la tabla está vacía
         if (!context.Libros.Any())
         {
             context.Libros.AddRange(
@@ -41,6 +41,23 @@ using (var scope = app.Services.CreateScope())
                 new Libro { Titulo = "Don Quijote de la Mancha", Autor = "Miguel de Cervantes", Precio = 350.00m, Stock = 5, ImagenUrl = "https://images.unsplash.com/photo-1512820790803-83ca734da794" },
                 new Libro { Titulo = "El Principito", Autor = "Antoine de Saint-Exupéry", Precio = 180.00m, Stock = 15, ImagenUrl = "https://images.unsplash.com/photo-1532012197267-da84d127e765" }
             );
+            context.SaveChanges();
+        }
+
+        // 2. Insertar Administrador por defecto si no existe ninguno
+        if (!context.Usuarios.Any(u => u.Rol == "Admin"))
+        {
+            var adminUser = new Usuario
+            {
+                Nombre = "Administrador",
+                Correo = "admin@libreriadiscovery.com",
+                // Por ahora guardamos una contraseña base (en la fase de auth veremos el hasheo seguro)
+                PasswordHash = "Admin123*", 
+                Rol = "Admin",
+                FechaRegistro = DateTime.Now
+            };
+
+            context.Usuarios.Add(adminUser);
             context.SaveChanges();
         }
     }

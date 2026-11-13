@@ -39,8 +39,24 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxSZWdpc3Rlci5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/josea/GIT/LibreriaDiscovery/Views/Admin/CrearLibro.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQ3JlYXJMaWJyby5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/josea/GIT/LibreriaDiscovery/Views/Admin/Index.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cSW5kZXguY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/josea/GIT/LibreriaDiscovery/Views/Carrito/index.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ2Fycml0b1xpbmRleC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/josea/GIT/LibreriaDiscovery/Views/Cuenta/Login.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VlbnRhXExvZ2luLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/josea/GIT/LibreriaDiscovery/Views/Cuenta/Registro.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQ3VlbnRhXFJlZ2lzdHJvLmNzaHRtbA==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/josea/GIT/LibreriaDiscovery/Views/Home/Catalogo.cshtml]
