@@ -66,34 +66,49 @@ namespace LibreriaDiscovery.Controllers
             return View();
         }
 
-        // POST: /Cuenta/Registro
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public IActionResult Registro(Usuario modelo)
+       // POST: /Cuenta/Registro
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public IActionResult Registro(Usuario modelo)
+    {
+        // 1. Validar las reglas del modelo (como [MinLength(6)] y campos obligatorios)
+        if (!ModelState.IsValid)
         {
-            // Verificar si el correo ya está registrado
-            if (_context.Usuarios.Any(u => u.Correo == modelo.Correo))
-            {
-                ModelState.AddModelError("Correo", "Este correo ya está registrado.");
-                return View(modelo);
-            }
-
-            modelo.Rol = "Cliente"; // Por defecto, cualquier registro web es cliente
-            modelo.FechaRegistro = DateTime.Now;
-
-            _context.Usuarios.Add(modelo);
-            _context.SaveChanges();
-
-            TempData["Mensaje"] = "¡Registro exitoso! Ahora puedes iniciar sesión.";
-            return RedirectToAction("Login");
+            return View(modelo);
         }
 
-        // POST: /Cuenta/Logout
-        [HttpPost]
-        public async Task<IActionResult> Logout()
+        // 2. Validación extra estricta por seguridad de longitud mínima
+        if (string.IsNullOrEmpty(modelo.PasswordHash) || modelo.PasswordHash.Length < 6)
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-            return RedirectToAction("Index", "Home");
+            ModelState.AddModelError("PasswordHash", "La contraseña debe tener al menos 6 caracteres.");
+            return View(modelo);
         }
+
+        // 3. Verificar si el correo ya está registrado
+        if (_context.Usuarios.Any(u => u.Correo == modelo.Correo))
+        {
+            ModelState.AddModelError("Correo", "Este correo ya está registrado.");
+            return View(modelo);
+        }
+
+        // 4. ENCRIPTAR LA CONTRASEÑA antes de guardarla
+        modelo.PasswordHash = _passwordHasher.HashPassword(modelo, modelo.PasswordHash);
+
+        modelo.Rol = "Cliente"; // Por defecto, cualquier registro web es cliente
+        modelo.FechaRegistro = DateTime.Now;
+
+        _context.Usuarios.Add(modelo);
+        _context.SaveChanges();
+
+        TempData["Mensaje"] = "¡Registro exitoso! Ahora puedes iniciar sesión.";
+        return RedirectToAction("Login");
+    }
+
+    // POST: /Cuenta/Logout
+    [HttpPost]
+    public async Task<IActionResult> Logout()
+    {
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        return RedirectToAction("Index", "Home");
     }
 }
