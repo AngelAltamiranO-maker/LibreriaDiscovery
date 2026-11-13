@@ -14,128 +14,83 @@
 </head>
 <body class="bg-gray-50 dark:bg-gray-900 text-gray-800 dark:text-gray-100 antialiased min-h-screen flex flex-col justify-between transition-colors duration-300">
 
-    <!-- Navbar Superior -->
-<header class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 sticky top-0 z-50 transition-colors duration-300">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-        
-        <!-- Tu logo o título de la aplicación -->
-        <a asp-controller="Home" asp-action="Index" class="text-2xl font-bold text-indigo-600 dark:text-indigo-400">
-            Librería Discovery
-        </a>
+    <!-- Navbar Superior Unificado -->
+    <header class="bg-white dark:bg-gray-800 border-b border-gray-100 dark:border-gray-700 sticky top-0 z-50 transition-colors duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            
+            <!-- Lado Izquierdo: Logo y Enlaces de Navegación -->
+            <div class="flex items-center space-x-8">
+                <!-- Logo / Título -->
+                <a asp-controller="Home" asp-action="Index" class="flex items-center space-x-2">
+                    <div class="bg-indigo-600 text-white p-2 rounded-lg font-bold">📚</div>
+                    <div>
+                        <span class="text-xl font-bold text-slate-800 dark:text-white">Discovery</span>
+                        <span class="block text-xs font-semibold text-indigo-600 dark:text-indigo-400 tracking-wider">LIBRERÍA ONLINE</span>
+                    </div>
+                </a>
 
-        <!-- Bloque de Autenticación -->
-        <div class="flex items-center space-x-4">
-            @if (User.Identity != null && User.Identity.IsAuthenticated)
-            {
-                <!-- Saludo o nombre del usuario -->
-                <span class="text-sm font-medium text-slate-700 dark:text-slate-300">
-                    Hola, @User.Identity.Name
-                </span>
+                <!-- Menú de navegación principal -->
+                <nav class="hidden md:flex items-center space-x-6">
+                    <a asp-controller="Home" asp-action="Index" class="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium text-sm flex items-center gap-1">
+                        🏠 Inicio
+                    </a>
+                    <a asp-controller="Home" asp-action="Catalogo" class="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium text-sm flex items-center gap-1">
+                        📖 Catálogo
+                    </a>
+                    <a asp-controller="Home" asp-action="About" class="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium text-sm flex items-center gap-1">
+                        ℹ️ Sobre Nosotros
+                    </a>
+                </nav>
+            </div>
 
-                <!-- Enlace exclusivo para Administradores -->
-                @if (User.IsInRole("Admin"))
+            <!-- Lado Derecho: Carrito, Modo Oscuro y Autenticación -->
+            <div class="flex items-center space-x-4">
+                <!-- Enlace al Carrito -->
+                <a asp-controller="Carrito" asp-action="Index" class="text-slate-600 dark:text-slate-300 hover:text-indigo-600 dark:hover:text-indigo-400 font-medium text-sm flex items-center gap-1">
+                    🛒 Carrito
+                </a>
+
+                <!-- Botón de Modo Oscuro -->
+                <button id="theme-toggle" type="button" class="p-2 rounded-lg text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+                    <span id="theme-toggle-dark-icon" class="hidden">🌙</span>
+                    <span id="theme-toggle-light-icon" class="hidden">☀️</span>
+                    <svg id="theme-toggle-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
+                    </svg>
+                </button>
+
+                <!-- Bloque Dinámico de Sesión -->
+                @if (User.Identity != null && User.Identity.IsAuthenticated)
                 {
-                    <a asp-controller="Admin" asp-action="Index" class="text-indigo-600 dark:text-indigo-400 font-semibold text-sm hover:underline">
-                        Panel Admin
+                    <span class="text-sm font-medium text-slate-700 dark:text-slate-300 hidden sm:inline">
+                        Hola, @User.Identity.Name
+                    </span>
+
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a asp-controller="Admin" asp-action="Index" class="bg-indigo-50 dark:bg-indigo-900/50 text-indigo-600 dark:text-indigo-400 font-semibold text-sm px-3 py-1.5 rounded-lg border border-indigo-200 dark:border-indigo-700 hover:bg-indigo-100 transition">
+                            Panel Admin
+                        </a>
+                    }
+
+                    <form asp-controller="Cuenta" asp-action="Logout" method="post" class="inline">
+                        <button type="submit" class="bg-red-500 hover:bg-red-600 text-white text-sm px-3 py-1.5 rounded-lg transition">
+                            Salir
+                        </button>
+                    </form>
+                }
+                else
+                {
+                    <a asp-controller="Cuenta" asp-action="Login" class="text-slate-700 dark:text-slate-300 hover:text-indigo-600 text-sm font-medium">
+                        Iniciar Sesión
+                    </a>
+                    <a asp-controller="Cuenta" asp-action="Registro" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm px-3 py-1.5 rounded-lg transition shadow-sm">
+                        Registrarse
                     </a>
                 }
-
-                <!-- Botón de Cerrar Sesión -->
-                <form asp-controller="Cuenta" asp-action="Logout" method="post" class="inline">
-                    <button type="submit" class="bg-red-500 hover:bg-red-600 text-white text-sm px-3 py-1.5 rounded-lg transition">
-                        Cerrar Sesión
-                    </button>
-                </form>
-            }
-            else
-            {
-                <!-- Botones para visitantes no autenticados -->
-                <a asp-controller="Cuenta" asp-action="Login" class="text-slate-700 dark:text-slate-300 hover:text-indigo-600 text-sm font-medium">
-                    Iniciar Sesión
-                </a>
-                <a asp-controller="Cuenta" asp-action="Registro" class="bg-indigo-600 hover:bg-indigo-700 text-white text-sm px-3 py-1.5 rounded-lg transition">
-                    Registrarse
-                </a>
-            }
-        </div>
-
-    </div> <!-- <--- Aquí se cierra el div principal de max-w-7xl que estaba abierto -->
-</header>        
-            <!-- Logo -->
-            <a asp-controller="Home" asp-action="Index" class="flex items-center gap-3 group">
-                <div class="w-10 h-10 rounded-xl bg-emerald-600 flex items-center justify-center text-white shadow-md shadow-emerald-600/20 group-hover:bg-emerald-700 transition">
-                    📖
-                </div>
-                <div>
-                    <span class="text-xl font-black text-gray-900 dark:text-white tracking-tight block leading-none">Discovery</span>
-                    <span class="text-[10px] font-bold text-emerald-600 dark:text-emerald-400 tracking-widest uppercase">Librería Online</span>
-                </div>
-            </a>
-
-            <!-- Enlaces de Navegación principales -->
-<nav class="hidden md:flex items-center gap-8 font-medium text-sm text-gray-600 dark:text-gray-300">
-    <a asp-controller="Home" asp-action="Index" class="flex items-center gap-2 hover:text-emerald-600 dark:hover:text-emerald-400 transition">🏠 Inicio</a>
-    <a asp-controller="Home" asp-action="Catalogo" class="flex items-center gap-2 hover:text-emerald-600 dark:hover:text-emerald-400 transition">📚 Catálogo</a>
-    <a asp-controller="Home" asp-action="SobreNosotros" class="flex items-center gap-2 hover:text-emerald-600 dark:hover:text-emerald-400 transition">ℹ️ Sobre Nosotros</a>
-</nav>
-
-            <!-- Acciones de la derecha (Carrito / Botón Tema Sol-Luna) -->
-            <div class="flex items-center gap-3">
-                <a asp-controller="Carrito" asp-action="Index" class="relative flex items-center gap-1 text-slate-700 dark:text-slate-300 hover:text-indigo-600 transition">
-    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path>
-    </svg>
-    <span>Carrito</span>
-    <!-- Badge contador (puedes adaptarlo según cómo manejes tu modelo de carrito en sesión) -->
-    <span id="cart-counter" class="absolute -top-2 -right-2 bg-indigo-600 text-white text-xs px-1.5 py-0.5 rounded-full font-bold">
-        @* Aquí puedes mostrar la cantidad si pasas el dato en el ViewBag o ViewModel *@
-    </span>
-</a>
-
-                <!-- Botón de Modo Oscuro / Claro restaurado con sus IDs originales -->
-<button id="theme-toggle" type="button" class="p-2 text-slate-300 hover:text-white transition-colors focus:outline-none">
-    <span id="theme-toggle-dark-icon" class="hidden">🌙</span>
-    <span id="theme-toggle-light-icon" class="hidden">☀️</span>
-    <!-- SVG por defecto si prefieres mantener el icono limpio -->
-    <svg id="theme-toggle-icon" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/>
-    </svg>
-</button>
-
-   <!-- SECCIÓN DE USUARIO / AUTENTICACIÓN -->
-    @if (User.Identity != null && User.Identity.IsAuthenticated)
-    {
-        <div class="flex items-center space-x-4">
-            <!-- Enlace al Catálogo / CRUD (Solo visible con sesión iniciada) -->
-            <a asp-controller="Libro" asp-action="Index" class="text-slate-300 hover:text-white transition-colors font-medium">
-                Catálogo (CRUD)
-            </a>
-
-            <!-- Saludo y Botón de Salir -->
-            <div class="flex items-center space-x-3 border-l border-slate-700 pl-4">
-                <span class="text-sm font-medium text-slate-200">
-                    Hola, @User.Identity.Name
-                </span>
-                <form asp-controller="Account" asp-action="Logout" method="post" class="inline">
-                    <button type="submit" class="px-3 py-1.5 text-xs font-medium text-red-400 hover:text-red-300 bg-red-950/30 hover:bg-red-950/50 border border-red-900/50 rounded-lg transition-colors">
-                        Salir
-                    </button>
-                </form>
             </div>
+
         </div>
-    }
-    else 
-    {
-        <div class="flex items-center space-x-2 border-l border-slate-700 pl-4">
-            <a href="/Account/Login" class="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white transition-colors">
-                Iniciar Sesión
-            </a>
-            <a href="/Account/Register" class="px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-lg shadow-indigo-500/20 transition-all">
-                Registrarse
-            </a>
-        </div>
-    }
-</div>
     </header>
 
     <!-- Contenido Principal -->
@@ -156,7 +111,7 @@
         </div>
     </footer>
 
-    <!-- Script para alternar entre Modo Claro y Oscuro con persistence -->
+    <!-- Script para alternar entre Modo Claro y Oscuro con persistencia -->
     <script>
         const themeToggleBtn = document.getElementById('theme-toggle');
         const darkIcon = document.getElementById('theme-toggle-dark-icon');
@@ -165,25 +120,27 @@
         // Determinar tema inicial
         if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
             document.documentElement.classList.add('dark');
-            lightIcon.classList.remove('hidden');
+            if (lightIcon) lightIcon.classList.remove('hidden');
         } else {
             document.documentElement.classList.remove('dark');
-            darkIcon.classList.remove('hidden');
+            if (darkIcon) darkIcon.classList.remove('hidden');
         }
 
         // Alternar tema al hacer clic
-        themeToggleBtn.addEventListener('click', function() {
-            darkIcon.classList.toggle('hidden');
-            lightIcon.classList.toggle('hidden');
+        if (themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', function() {
+                if (darkIcon) darkIcon.classList.toggle('hidden');
+                if (lightIcon) lightIcon.classList.toggle('hidden');
 
-            if (document.documentElement.classList.contains('dark')) {
-                document.documentElement.classList.remove('dark');
-                localStorage.setItem('color-theme', 'light');
-            } else {
-                document.documentElement.classList.add('dark');
-                localStorage.setItem('color-theme', 'dark');
-            }
-        });
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                }
+            });
+        }
     </script>
 
     @await RenderSectionAsync("Scripts", required: false)
