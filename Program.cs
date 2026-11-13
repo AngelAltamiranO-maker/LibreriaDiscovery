@@ -51,7 +51,7 @@ using (var scope = app.Services.CreateScope())
             {
                 Nombre = "Administrador",
                 Correo = "admin@libreriadiscovery.com",
-                // Por ahora guardamos una contraseña base (en la fase de auth veremos el hasheo seguro)
+                // guardamos una contraseña base (en fase de auth vemos el hasheo seguro)
                 PasswordHash = "Admin123*", 
                 Rol = "Admin",
                 FechaRegistro = DateTime.Now

@@ -27,5 +27,5 @@ namespace LibreriaDiscovery.Data
                 .Property(p => p.Precio)
                 .HasColumnType("decimal(18,2)");
         }
-    } // <--- La única llave de cierre de la clase va al final de todo
+    } 
 }
